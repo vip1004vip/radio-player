@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Music</title>
+    <style>
+        /* 기본 스타일 */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('https://i.ibb.co/5cPtT6j/pexels-cottonbro-7095726.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer; /* 클릭 가능한 커서 */
+        }
+
+        /* 플레이어 숨기기 */
+        .player {
+            display: none;
+        }
+
+        /* 상태 메시지 스타일 */
+        .status {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <h1>Class Music</h1>
+        <button onclick="playRadio()">재생 시작</button>
+        <button onclick="pauseRadio()">일시정지</button>
+        <p class="status" id="status">화면을 클릭하거나 터치하여 재생/일시정지</p>
+    </div>
+
+    <script>
+        // 오디오 객체 생성
+        const audio = new Audio("https://icecast.radiofrance.fr/francemusiqueconcertsradiofrance-hifi.aac");
+        const statusElement = document.getElementById("status");
+
+        // 재생 상태 변수
+        let isPlaying = false;
+
+        // 클릭/터치 이벤트 핸들러
+        document.body.addEventListener("click", () => {
+            if (isPlaying) {
+                audio.pause();
+                statusElement.textContent = "일시정지됨. 화면을 클릭하거나 터치하여 재생";
+            } else {
+                audio.play();
+                statusElement.textContent = "재생 중... 화면을 클릭하거나 터치하여 일시정지";
+            }
+            isPlaying = !isPlaying; // 상태 토글
+        });
+
+        // 오디오 로드 실패 시 처리
+        audio.addEventListener("error", () => {
+            statusElement.textContent = "재생에 실패했습니다. 연결을 확인해주세요.";
+        });
+    </script>
+</body>
+</html>
